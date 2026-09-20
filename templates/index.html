@@ -1,1 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
 
+    <title>AI College Placement System</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+            margin: 0;
+        }
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1f4e79;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .analyze-button {
+            background: #1f4e79;
+        }
+
+        .reset-button {
+            background: #777;
+            margin-top: 10px;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #eef6ff;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .student-summary {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .student-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .student-label {
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+        .skill {
+            background: white;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border-left: 4px solid #1f4e79;
+            text-align: left;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #ddd;
+            border-radius: 20px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background: #1f4e79;
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            border-radius: 20px;
+        }
+
+        .job {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .job-name {
+            font-weight: bold;
+            color: #1f4e79;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .job-progress-container {
+            width: 100%;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .job-progress-bar {
+            height: 22px;
+            background: #1f4e79;
+            color: white;
+            text-align: center;
+            line-height: 22px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .metric {
+            background: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 7px;
+            text-align: left;
+        }
+
+        .metric-name {
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+        .confusion-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .confusion-matrix th,
+        .confusion-matrix td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .confusion-matrix th {
+            background: #1f4e79;
+            color: white;
+        }
+
+        .performance-chart {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            margin: 30px;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>
+        AI-Powered College Placement & Skill Recommendation System
+    </h1>
+
+    <p>
+        Smart Placement Prediction • Skill Gap Analysis • Job Recommendation
+    </p>
+
+</div>
+
+<div class="container">
+
+    <h2>Student Details</h2>
+
+    <form method="POST" id="studentForm">
+
+        <label>CGPA</label>
+
+        <input
+            type="number"
+            step="0.1"
+            name="cgpa"
+            min="0"
+            max="10"
+            placeholder="Enter CGPA (0 - 10)"
+            required
+        >
+
+        <label>Aptitude Score</label>
+
+        <input
+            type="number"
+            name="aptitude"
+            min="0"
+            max="100"
+            placeholder="Enter Aptitude Score (0 - 100)"
+            required
+        >
+
+        <label>Communication Score</label>
+
+        <input
+            type="number"
+            name="communication"
+            min="0"
+            max="100"
+            placeholder="Enter Communication Score (0 - 100)"
+            required
+        >
+
+        <label>Number of Projects</label>
+
+        <input
+            type="number"
+            name="projects"
+            min="0"
+            placeholder="Enter Number of Projects"
+            required
+        >
+
+        <label>Internships</label>
+
+        <input
+            type="number"
+            name="internships"
+            min="0"
+            placeholder="Enter Number of Internships"
+            required
+        >
+
+        <label>Target Job</label>
+
+        <select name="target_job" required>
+
+            <option value="Data Scientist">
+                Data Scientist
+            </option>
+
+            <option value="Data Analyst">
+                Data Analyst
+            </option>
+
+            <option value="Python Developer">
+                Python Developer
+            </option>
+
+            <option value="Web Developer">
+                Web Developer
+            </option>
+
+        </select>
+
+        <label>Your Skills</label>
+
+        <input
+            type="text"
+            name="student_skills"
+            placeholder="Example: Python, SQL, HTML, CSS"
+            required
+        >
+
+        <button
+            type="submit"
+            class="analyze-button">
+
+            Analyze Student
+
+        </button>
+
+        <button
+            type="button"
+            class="reset-button"
+            onclick="document.getElementById('studentForm').reset();">
+
+            Clear / Reset
+
+        </button>
+
+    </form>
+
+    {% if student_details %}
+
+    <div class="result">
+
+        <h2>📋 Student Analysis</h2>
+
+        <div class="student-summary">
+
+            {% for label, value in student_details.items() %}
+
+            <div class="student-row">
+
+                <span class="student-label">
+                    {{ label }}
+                </span>
+
+                <span>
+                    {{ value }}
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% if result %}
+
+    <div class="result">
+
+        <h2>🤖 AI Prediction Result</h2>
+
+        <h3>
+            {{ result }}
+        </h3>
+
+        <p>
+
+            Placement Probability:
+
+            <strong>
+                {{ "%.2f"|format(probability) }}%
+            </strong>
+
+        </p>
+
+        <div class="progress-container">
+
+            <div
+                class="progress-bar"
+                style="width: {{ probability }}%;">
+
+                {{ "%.0f"|format(probability) }}%
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% if recommended_skills %}
+
+    <div class="result">
+
+        <h2>📚 Recommended Skills</h2>
+
+        {% for skill in recommended_skills %}
+
+        <div class="skill">
+
+            🔹 {{ skill }}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    {% if recommended_jobs %}
+
+    <div class="result">
+
+        <h2>💼 Recommended Jobs</h2>
+
+        {% for job, job_score in recommended_jobs %}
+
+        <div class="job">
+
+            <span class="job-name">
+                {{ job }}
+            </span>
+
+            <div class="job-progress-container">
+
+                <div
+                    class="job-progress-bar"
+                    style="width: {{ job_score }}%;">
+
+                    {{ "%.0f"|format(job_score) }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    <div class="result">
+
+        <h2>📊 ML Model Performance</h2>
+
+        <img
+            src="{{ url_for('static', filename='model_performance.png') }}"
+            class="performance-chart"
+            alt="ML Model Performance Chart"
+        >
+
+        <div class="metric">
+
+            <span class="metric-name">
+                Accuracy:
+            </span>
+
+            {{ "%.2f"|format(accuracy * 100) }}%
+
+        </div>
+
+        <div class="metric">
+
+            <span class="metric-name">
+                Precision:
+            </span>
+
+            {{ "%.2f"|format(precision * 100) }}%
+
+        </div>
+
+        <div class="metric">
+
+            <span class="metric-name">
+                Recall:
+            </span>
+
+            {{ "%.2f"|format(recall * 100) }}%
+
+        </div>
+
+        <div class="metric">
+
+            <span class="metric-name">
+                F1-Score:
+            </span>
+
+            {{ "%.2f"|format(f1 * 100) }}%
+
+        </div>
+
+        <h3>
+            Confusion Matrix
+        </h3>
+
+        <table class="confusion-matrix">
+
+            <tr>
+
+                <th></th>
+
+                <th>Predicted 0</th>
+
+                <th>Predicted 1</th>
+
+            </tr>
+
+            <tr>
+
+                <th>Actual 0</th>
+
+                <td>{{ tn }}</td>
+
+                <td>{{ fp }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Actual 1</th>
+
+                <td>{{ fn }}</td>
+
+                <td>{{ tp }}</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+    AI-Based College Placement & Skill Recommendation System
+
+</div>
+
+</body>
+
+</html>
